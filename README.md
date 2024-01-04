@@ -25,7 +25,7 @@ This Singularity image provides the Amazon Web Services Command Line Interface [
 
 The built image has an average size of 180 MB
 
-## vcflib-1.09.de
+## vcflib-1.09.def
 
 The Singularity image built with this recipe contains [vcflib version 1.09, build version after commit 0a05bec](https://github.com/vcflib/vcflib), used to process VCF (Variant Calling Format) files. Running the tools inside of the singularity became particularly important as the bioconda recipe for vcflib has known issues since June 2023 (see https://github.com/vcflib/vcflib/issues/389), and it's a bit of a dependency nightmare when building from source. 
 
