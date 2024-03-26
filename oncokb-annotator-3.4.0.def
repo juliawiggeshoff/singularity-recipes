@@ -75,7 +75,6 @@ From: ubuntu:20.04
 
     cd  ../vcf2maf && git checkout -b 754d68a
     sed -i 's/--af_esp //' vcf2maf.pl
-    sed -i 's/gnomAD_/gnomADe_/g' vcf2maf.pl
 
     cd ../
 
@@ -85,7 +84,6 @@ From: ubuntu:20.04
     python3 oncokb-annotator/MafAnnotator.py -h || exit 1
 
 %environment
-    export PATH="/usr/local/bin:$PATH"
-    export PATH="/opt/samtools:/opt/htslib:/opt/vcf2maf:/opt/oncokb-annotator:/opt/ensembl-vep:$PATH"
+    export PATH="/opt/samtools:/opt/htslib:/opt/vcf2maf:/opt/oncokb-annotator:/opt/ensembl-vep:/usr/local/bin:$PATH"
     export LANG=C.UTF-8 
     export LC_ALL=C.UTF-8
