@@ -74,7 +74,7 @@ From: ubuntu:20.04
     pip install -r requirements/common.txt -r requirements/pip3.txt
 
     cd  ../vcf2maf && git checkout -b 754d68a
-    sed -i 's/--af_esp //' vcf2maf.pl
+    sed -i 's/STRAND_VEP/TRANSCRIPT_STRAND/g' vcf2maf.pl
 
     cd ../
 
