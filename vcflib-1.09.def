@@ -42,10 +42,13 @@ From: ubuntu:20.04
 
     pip install pybind11[global]
 
-    git clone --recursive https://github.com/vcflib/vcflib.git
+    git clone https://github.com/vcflib/vcflib.git
 
     cd vcflib
-    git checkout -b 0a05bec
+    git checkout 0a05bec
+
+    git submodule update --init --recursive
+
     mkdir -p build && cd build
     cmake -DCMAKE_BUILD_TYPE=Debug -DZIG=OFF -DOPENMP=OFF ..
     cmake --build .
