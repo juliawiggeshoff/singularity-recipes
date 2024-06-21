@@ -63,6 +63,7 @@ From: ubuntu:20.04
     cd / && mkdir -p /opt && cd /opt
 
     git clone https://github.com/adamewing/bamsurgeon.git
+    sed -i 's#bam.header#bam.header.to_dict()#' bamsurgeon/scripts/postprocess.py
     
     cd / && pip install pysam
 
