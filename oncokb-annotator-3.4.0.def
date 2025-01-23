@@ -73,7 +73,7 @@ From: ubuntu:20.04
     echo "matplotlib==3.1.2" >> requirements/pip3.txt
     pip install -r requirements/common.txt -r requirements/pip3.txt
 
-    cd  ../vcf2maf && git checkout -b 754d68a
+    cd  ../vcf2maf && git checkout -b 0d3f514
     sed -i 's/STRAND_VEP/TRANSCRIPT_STRAND/g' vcf2maf.pl
 
     cd ../
