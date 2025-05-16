@@ -1,0 +1,27 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8-noble
+
+%labels
+    Application_name fgbio-2.5.21_bwa-0.7.18_samtools-1.21 
+    Author Julia Wiggeshoff
+    Author_email julia.wiggeshoff@uk-koeln.de
+    Year 2024
+
+%environment
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+    export ENV_NAME=base
+    export MAMBA_ROOT_PREFIX=/opt/conda
+    export MAMBA_EXE=/bin/micromamba
+    export PATH="/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+
+%post
+    micromamba install -y -n base -c conda-forge -c bioconda \
+        fgbio=2.5.21 \
+        bwa=0.7.18 \
+        samtools=1.21 \
+        procps-ng && \
+    micromamba clean -a -y
+
+%runscript
+    exec "$@"
