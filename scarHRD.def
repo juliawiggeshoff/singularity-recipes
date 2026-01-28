@@ -1,0 +1,40 @@
+Bootstrap: docker
+From: quay.io/biocontainers/r-sequenza:3.0.0--r42h3342da4_5
+
+%labels
+    Application_name scarHRD commit c98f8bc with sequenza 3.0.0 and copynumber commit 2f54c08 dependencies    
+    Author Julia Wiggeshoff
+    Author_email julia.wiggeshoff@uk-koeln.de
+    Year 2026
+
+%post
+
+    # Ensure CRAN repo is available
+    echo 'options(repos="https://cloud.r-project.org")' >> /usr/local/lib/R/etc/Rprofile.site
+
+    # Install remotes for GitHub installs
+    R -e 'if (!requireNamespace("remotes", quietly=TRUE)) install.packages("remotes")'
+
+    # Install scarHRD pinned to commit c98f8bc
+    R -e 'remotes::install_github("sztup/scarHRD@c98f8bc", dependencies=TRUE)'
+
+    # Install copynumber pinned to commit 2f54c08
+    R -e 'remotes::install_github("aroneklund/copynumber@2f54c08", dependencies=TRUE)'
+
+%environment
+    export PATH="/usr/local/bin:$PATH"
+    export R_LIBS="/usr/local/lib/R/site-library"
+
+%runscript
+    echo "This container provides Sequenza (Python + R utils), scarHRD, and copynumber"
+    exec "$@"
+
+%help
+    This container includes:
+    - Sequenza R package
+    - scarHRD (R) pinned to c98f8bc
+    - copynumber (R) pinned to 2f54c08
+    - Python3 available as /usr/bin/python
+    Use /data and /databases for input/output storage
+
+
