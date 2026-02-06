@@ -1,0 +1,51 @@
+Bootstrap: docker
+From: quay.io/biocontainers/samtools:1.22.1--h96c455f_0
+Stage: samtools
+
+Bootstrap: docker
+From: quay.io/biocontainers/r-sequenza:3.0.0--r42h3342da4_5
+Stage: final
+
+%labels
+    Application_name scarHRD commit c98f8bc with sequenza 3.0.0, samtools 1.22.1, tabix, and copynumber commit 2f54c08   
+    Author Julia Wiggeshoff
+    Author_email julia.wiggeshoff@uk-koeln.de
+    Year 2026
+
+%files from samtools
+    /usr/local/bin/samtools   /usr/local/bin/samtools
+    /usr/local/bin/tabix      /usr/local/bin/tabix
+    /usr/local/lib/libhts.so.3      /usr/local/lib/libhts.so.3
+    /usr/local/lib/libtinfow.so.6   /usr/local/lib/libtinfow.so.6
+    /usr/local/lib/libncursesw.so.6 /usr/local/lib/libncursesw.so.6
+    /usr/local/lib/libz.so.1        /usr/local/lib/libz.so.1
+    /usr/local/lib/libdeflate.so.0  /usr/local/lib/libdeflate.so.0
+    /usr/local/lib/liblzma.so.5     /usr/local/lib/liblzma.so.5
+    /usr/local/lib/libbz2.so.1.0    /usr/local/lib/libbz2.so.1.0
+
+%post
+
+    echo 'options(repos="https://cloud.r-project.org")' >> /usr/local/lib/R/etc/Rprofile.site
+
+    R -e 'if (!requireNamespace("remotes", quietly=TRUE)) install.packages("remotes")'
+    R -e 'remotes::install_github("sztup/scarHRD@c98f8bc", dependencies=TRUE)'
+    R -e 'remotes::install_github("aroneklund/copynumber@2f54c08", dependencies=TRUE)'
+
+%environment
+    export PATH="/usr/local/bin:$PATH"
+    export R_LIBS="/usr/local/lib/R/site-library"
+    export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
+%runscript
+    echo "This container provides Sequenza (Python + R utils), samtools, tabix, scarHRD, and copynumber"
+    exec "$@"
+
+%help
+    This container includes:
+    - Sequenza R package
+    - samtools
+    - tabix
+    - scarHRD (R) pinned to c98f8bc
+    - copynumber (R) pinned to 2f54c08
+    - Python3
+
