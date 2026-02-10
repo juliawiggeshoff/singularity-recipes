@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:22.04
 
 %labels
-    Application_name scarHRD pipeline with sequenza-utils 3.0.0, sequenza 3.0.0, samtools 1.22.1, scarHRD c98f8bc, and copynumber 2f54c08
+    Application_name scarHRD pipeline with sequenza-utils 3.0.0, sequenza 3.0.0, samtools 1.22.1, scarHRD 999501a (personal fork), and copynumber 2f54c08
     Author Julia Wiggeshoff
     Author_email julia.wiggeshoff@uk-koeln.de
     Year 2026
@@ -68,7 +68,8 @@ From: ubuntu:22.04
                         repos = NULL,
                         lib = '$R_LIB')"
     R -e "remotes::install_bitbucket('sequenzatools/sequenza', lib='$R_LIB', dependencies=TRUE)" || exit 1
-    R -e "remotes::install_github('sztup/scarHRD@c98f8bc', dependencies=TRUE, lib='$R_LIB')" || exit 1
+    ## fix mufreq.treshold issue in scarHRD:::preprocess.seqz (should be mufreq.threshold)
+    R -e "remotes::install_github('juliawiggeshoff/scarHRD@999501a', dependencies=TRUE, lib='$R_LIB')" || exit 1
     R -e "remotes::install_github('aroneklund/copynumber@2f54c08', dependencies=TRUE, lib='$R_LIB')" || exit 1
 
     # Verify installs (fail build if missing)
@@ -89,5 +90,5 @@ From: ubuntu:22.04
     - samtools 1.22.1
     - sequenza-utils 3.0.0 (Python)
     - sequenza 3.0.0 (R)
-    - scarHRD (R) pinned to c98f8bc
+    - scarHRD (R) pinned to 999501a (personal fork)
     - copynumber (R) pinned to 2f54c08
