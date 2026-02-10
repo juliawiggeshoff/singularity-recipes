@@ -1,0 +1,93 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+    Application_name scarHRD pipeline with sequenza-utils 3.0.0, sequenza 3.0.0, samtools 1.22.1, scarHRD c98f8bc, and copynumber 2f54c08
+    Author Julia Wiggeshoff
+    Author_email julia.wiggeshoff@uk-koeln.de
+    Year 2026
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    
+    apt-get update
+    apt-get install -y \
+        build-essential \
+        gcc \
+        g++ \
+        make \
+        python3 \
+        python3-pip \
+        python3-dev \
+        r-base \
+        r-base-dev \
+        wget \
+        curl \
+        git \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libgit2-dev \
+        libssh2-1-dev \
+        libxml2-dev \
+        libfontconfig1-dev \
+        libharfbuzz-dev \
+        libfribidi-dev \
+        libfreetype6-dev \
+        libpng-dev \
+        libtiff5-dev \
+        libjpeg-dev \
+        zlib1g-dev \
+        libbz2-dev \
+        liblzma-dev \
+        libncurses5-dev \
+        ca-certificates \
+        locales
+
+    locale-gen en_US.UTF-8
+    update-locale LANG=en_US.UTF-8
+    
+    pip3 install sequenza-utils==3.0.0 || exit 1
+    
+    cd /tmp
+    wget https://github.com/samtools/samtools/releases/download/1.22.1/samtools-1.22.1.tar.bz2
+    tar -xjf samtools-1.22.1.tar.bz2
+    cd samtools-1.22.1
+    ./configure --prefix=/usr/local
+    make all all-htslib
+    make install install-htslib
+    cd /
+    rm -rf /tmp/samtools-1.22.1*
+    
+    mkdir -p /usr/local/lib/R/site-library
+    R_LIB="/usr/local/lib/R/site-library"
+    CRAN="https://cloud.r-project.org"
+
+    R -e "install.packages('remotes', lib='$R_LIB', repos='$CRAN')" || exit 1
+    ## NOTE: seqminer was archived early 2026; other depedencies might fail... always be aware of errors when installing sequenza and co
+    R -e "install.packages('https://cran.r-project.org/src/contrib/Archive/seqminer/seqminer_9.7.tar.gz',
+                        repos = NULL,
+                        lib = '$R_LIB')"
+    R -e "remotes::install_bitbucket('sequenzatools/sequenza', lib='$R_LIB', dependencies=TRUE)" || exit 1
+    R -e "remotes::install_github('sztup/scarHRD@c98f8bc', dependencies=TRUE, lib='$R_LIB')" || exit 1
+    R -e "remotes::install_github('aroneklund/copynumber@2f54c08', dependencies=TRUE, lib='$R_LIB')" || exit 1
+
+    # Verify installs (fail build if missing)
+    R -e "stopifnot(
+        requireNamespace('sequenza', quietly=TRUE),
+        requireNamespace('scarHRD', quietly=TRUE),
+        requireNamespace('copynumber', quietly=TRUE)
+    )" || exit 1
+
+
+%environment
+    export PATH="/usr/local/bin:$PATH"
+    export R_LIBS="/usr/local/lib/R/site-library"
+    export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
+%help
+    This container includes:
+    - samtools 1.22.1
+    - sequenza-utils 3.0.0 (Python)
+    - sequenza 3.0.0 (R)
+    - scarHRD (R) pinned to c98f8bc
+    - copynumber (R) pinned to 2f54c08
