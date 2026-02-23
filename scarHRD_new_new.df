@@ -71,7 +71,7 @@ From: ubuntu:22.04
     ## fix mufreq.treshold issue in scarHRD:::preprocess.seqz (should be mufreq.threshold)
     ## fix namespace issues in scarHRD:::preprocess.seqz
     ## modify substitution syntax for filename
-    R -e "remotes::install_github('juliawiggeshoff/scarHRD@0993381', dependencies=TRUE, lib='$R_LIB')" || exit 1
+    R -e "remotes::install_github('juliawiggeshoff/scarHRD@df46250', dependencies=TRUE, lib='$R_LIB')" || exit 1
     R -e "remotes::install_github('aroneklund/copynumber@2f54c08', dependencies=TRUE, lib='$R_LIB')" || exit 1
 
     # Verify installs (fail build if missing)
