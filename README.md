@@ -1,6 +1,12 @@
 # Singularity Definition Files Repository
 This repository contains Singularity definition files., i.e. recipes, for building Singularity images. To build the images, one needs to have [singularity installed](https://docs.sylabs.io/guides/3.0/user-guide/installation.html). 
 
+# Disclaimer 
+
+Note: **Not all recipes are documented in this README.md, and building some images may fail depending on the host environment and container runtime configuration.** In particular, unprivileged builds using `fakeroot` may depend on user namespace support and compatible host/container system libraries. These configuration differences can cause build failures, especially when the container runtime falls back to host-provided fakeroot binaries and libraries that are incompatible with the container's operating system. Pre-built images are therefore provided where available.  
+
+Some of the images built with the files in this repo are available [here](https://github.com/juliawiggeshoff?tab=packages)
+
 # Cloning the Repository
 To clone this repository, open your terminal and run the following command:
 
