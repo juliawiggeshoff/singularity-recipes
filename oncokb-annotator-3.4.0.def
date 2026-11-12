@@ -62,18 +62,18 @@ From: ubuntu:20.04
     git clone https://github.com/samtools/htslib.git
     git clone https://github.com/juliawiggeshoff/vcf2maf.git 
 
-    cd htslib && git checkout -b 57de9bc && git submodule update --init --recursive && make
+    cd htslib && git checkout 57de9bc && git submodule update --init --recursive && make
     
-    cd ../samtools && git checkout -b 1f96fa8 && git submodule update --init --recursive && make
+    cd ../samtools && git checkout 1f96fa8 && git submodule update --init --recursive && make
 
-    cd ../ensembl-vep && git checkout -b 1066f68  && git submodule update --init --recursive
+    cd ../ensembl-vep && git checkout 1066f68  && git submodule update --init --recursive
     perl INSTALL.pl --AUTO a
 
-    cd ../oncokb-annotator && git checkout -b 11d262d && git submodule update --init --recursive
+    cd ../oncokb-annotator && git checkout 11d262d && git submodule update --init --recursive
     echo "matplotlib==3.1.2" >> requirements/pip3.txt
     pip install -r requirements/common.txt -r requirements/pip3.txt
 
-    cd  ../vcf2maf && git checkout -b 0e68797
+    cd  ../vcf2maf && git checkout 0e68797
 
     cd ../
 
