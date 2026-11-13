@@ -35,8 +35,6 @@ The built image has an average size of 180 MB
 
 The Singularity image built with this recipe contains [vcflib version 1.09, build version after commit 0a05bec](https://github.com/vcflib/vcflib), used to process VCF (Variant Calling Format) files. Running the tools inside of the singularity became particularly important as the bioconda recipe for vcflib has known issues since June 2023 (see https://github.com/vcflib/vcflib/issues/389), and it's a bit of a dependency nightmare when building from source. 
 
-The built image has an average size of 520 MB. This is the only image made [available](https://github.com/juliawiggeshoff/singularity-recipes/blob/main/vcflib-1.09.simg) in the current repository, after being requested by another user. Overall, there shouldn't be issues when building the images. If that's not the case, please let me know :)
-
 Tools can be executed directly, like:
 ```
 vcfwave -L 1000 input.vcf | bgzip -f -c > output.vcf.gz
